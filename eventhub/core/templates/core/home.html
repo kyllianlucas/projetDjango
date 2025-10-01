@@ -1,0 +1,13 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<h1>Bienvenue sur EventHub 🎉</h1>
+<p>Plateforme de gestion et recommandations d’événements.</p>
+
+{% if user.is_authenticated %}
+  <p>Bonjour {{ user.username }} !</p>
+{% else %}
+  <p><a href="{% url 'signup' %}" class="btn btn-primary">Inscrivez-vous</a> ou 
+     <a href="{% url 'login' %}" class="btn btn-secondary">Connectez-vous</a></p>
+{% endif %}
+{% endblock %}

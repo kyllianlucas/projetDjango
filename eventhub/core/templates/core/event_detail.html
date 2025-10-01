@@ -1,0 +1,18 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<h2>{{ event.title }}</h2>
+<p><strong>Date :</strong> {{ event.date|date:"d/m/Y H:i" }}</p>
+<p><strong>Lieu :</strong> {{ event.location }}</p>
+<p><strong>Capacité :</strong> {{ event.capacity }}</p>
+<p>{{ event.description }}</p>
+
+{% if event.image %}
+  <img src="{{ event.image.url }}" class="img-fluid" alt="Image de l'événement">
+{% endif %}
+
+{% if user == event.organizer %}
+  <a href="{% url 'event_update' event.pk %}" class="btn btn-warning">Modifier</a>
+  <a href="{% url 'event_delete' event.pk %}" class="btn btn-danger">Supprimer</a>
+{% endif %}
+{% endblock %}

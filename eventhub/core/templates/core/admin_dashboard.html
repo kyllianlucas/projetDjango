@@ -1,0 +1,46 @@
+{% extends "core/base.html" %}
+{% block content %}
+<div class="container">
+  <h2 class="mb-4">⚙️ Tableau de bord administrateur</h2>
+
+  <div class="row text-center mb-4">
+    <div class="col"><div class="card p-3 shadow"><strong>👤 Utilisateurs</strong><br>{{ total_users }}</div></div>
+    <div class="col"><div class="card p-3 shadow"><strong>🎉 Événements</strong><br>{{ total_events }}</div></div>
+    <div class="col"><div class="card p-3 shadow"><strong>📝 Inscriptions</strong><br>{{ total_registrations }}</div></div>
+    <div class="col"><div class="card p-3 shadow"><strong>⭐ Avis</strong><br>{{ total_reviews }}</div></div>
+  </div>
+
+  <h3 class="mb-3">📂 Répartition des événements par catégorie</h3>
+  <canvas id="eventsByCategory" height="100"></canvas>
+
+  <h3 class="mt-5">🏆 Top 5 événements les mieux notés</h3>
+  <ul class="list-group">
+    {% for e in top_events %}
+      <li class="list-group-item">{{ e.title }} - ⭐ {{ e.avg_note|default:"-" }}/5</li>
+    {% empty %}
+      <li class="list-group-item">Aucun événement noté pour le moment.</li>
+    {% endfor %}
+  </ul>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('eventsByCategory');
+  new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: {{ categories|safe }},
+          datasets: [{
+              label: 'Nombre d\'événements',
+              data: {{ counts|safe }},
+              backgroundColor: 'rgba(54, 162, 235, 0.7)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: { y: { beginAtZero: true } }
+      }
+  });
+</script>
+{% endblock %}
