@@ -1,9 +1,12 @@
 from django import forms
-from .models import Event, Review
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from .models import Review, Evenement
+
 
 class EventForm(forms.ModelForm):
     class Meta:
-        model = Event
+        model = Evenement
         fields = ['titre', 'description', 'categorie', 'date', 'lieu', 'capacite', 'image']
         widgets = {
             'titre': forms.TextInput(attrs={'class': 'form-control'}),
@@ -16,7 +19,51 @@ class EventForm(forms.ModelForm):
         }
 
 
+from django import forms
+from .models import Review
+
+from django import forms
+from .models import Review
+
 class ReviewForm(forms.ModelForm):
+    note = forms.IntegerField(
+        label="Note (0/5)",
+        min_value=0,
+        max_value=5,
+        initial=0,  # valeur par défaut 0
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': '0/5'
+        })
+    )
+
+    commentaire = forms.CharField(
+        label="Commentaire",
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        required=True
+    )
+
+    image = forms.ImageField(
+        label="Ajouter une image (optionnel)",
+        required=False,
+        widget=forms.ClearableFileInput(attrs={'class': 'form-control'})
+    )
+
     class Meta:
         model = Review
-        fields = ['rating', 'text', 'image']
+        fields = ['note', 'commentaire', 'image']
+
+
+class SignupForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ("username", "email", "password1", "password2")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # On cache le help_text des champs de mot de passe
+        self.fields['password1'].help_text = None
+        self.fields['password2'].help_text = None
+        # Ajouter classe bootstrap directement
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'

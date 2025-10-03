@@ -1,10 +1,47 @@
 {% extends "core/base.html" %}
+{% load widget_tweaks %}
 
 {% block content %}
-<h2>Inscription</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="btn btn-primary">S'inscrire</button>
-</form>
+<div class="container mt-5" style="max-width: 600px;">
+  <div class="card shadow-lg rounded-4">
+    <div class="card-body p-4">
+      <h2 class="text-center mb-4">Créer un compte 🚀</h2>
+
+      <form method="post" novalidate>
+        {% csrf_token %}
+
+        {% for field in form %}
+          <div class="mb-3">
+            <label class="form-label fw-bold">{{ field.label }}</label>
+            {{ field|add_class:"form-control" }}
+
+            {% if field.errors %}
+              <div class="text-danger mt-1">
+                {% for error in field.errors %}
+                  <small>⚠ {{ error }}</small><br>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}
+              <p>⚠ {{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary w-100 py-2">✨ S'inscrire</button>
+      </form>
+
+      <div class="text-center mt-3">
+        <p class="mb-0">Déjà inscrit ?
+          <a href="{% url 'login' %}" class="text-decoration-none">Connectez-vous</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

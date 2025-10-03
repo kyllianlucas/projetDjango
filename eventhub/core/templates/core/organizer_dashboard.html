@@ -14,7 +14,7 @@
     <tbody>
       {% for e in events %}
         <tr>
-          <td>{{ e.title }}</td>
+          <td>{{ e.titre }}</td>
           <td>{{ e.nb_inscrits }}</td>
           <td>{% if e.avg_note %}⭐ {{ e.avg_note|floatformat:1 }}/5{% else %}-{% endif %}</td>
         </tr>

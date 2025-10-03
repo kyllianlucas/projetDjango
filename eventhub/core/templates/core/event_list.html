@@ -14,14 +14,14 @@
         <div class="col-md-4 mb-4">
           <div class="card h-100 shadow-sm">
             {% if e.image %}
-              <img src="{{ e.image.url }}" class="card-img-top" alt="{{ e.title }}">
+              <img src="{{ e.image.url }}" class="card-img-top" alt="{{ e.titre }}">
             {% else %}
               <img src="https://via.placeholder.com/400x250?text=Event" class="card-img-top" alt="Event">
             {% endif %}
             <div class="card-body">
-              <h5 class="card-title">{{ e.title }}</h5>
+              <h5 class="card-title">{{ e.titre }}</h5>
               <p class="card-text text-muted">
-                📍 {{ e.location }} <br>
+                📍 {{ e.lieu }} <br>
                 📅 {{ e.date|date:"d/m/Y H:i" }} <br>
                 <span class="badge bg-primary">{{ e.category }}</span>
               </p>

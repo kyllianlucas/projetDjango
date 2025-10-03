@@ -1,0 +1,42 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<h2>Gestion des avis</h2>
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Événement</th>
+            <th>Utilisateur</th>
+            <th>Note</th>
+            <th>Commentaire</th>
+            <th>Image</th>
+            <th>Valide</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for review in reviews %}
+        <tr>
+            <td>{{ review.id }}</td>
+            <td>{{ review.evenement.titre }}</td>
+            <td>{{ review.user.username }}</td>
+            <td>{{ review.note }}</td>
+            <td>{{ review.commentaire }}</td>
+            <td>
+                {% if review.image %}
+                    <img src="{{ review.image.url }}" width="50">
+                {% endif %}
+            </td>
+            <td>{{  review.get_status_display }}</td>
+            <td>
+                {% if review.status == 'pending' %}
+                    <a href="{% url 'validate_review' review.pk %}" class="btn btn-success btn-sm">Valider</a>
+                    <a href="{% url 'reject_review' review.pk %}" class="btn btn-danger btn-sm">Refuser</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

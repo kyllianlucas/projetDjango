@@ -1,34 +1,28 @@
 {% extends "core/base.html" %}
 
 {% block content %}
-<div class="container">
-  <h2 class="mb-4">✨ Événements recommandés</h2>
+<h2 class="mb-4">Derniers événements créés</h2>
 
-  {% if recos %}
-    <div class="row">
-      {% for e in recos %}
-        <div class="col-md-4 mb-3">
-          <div class="card h-100 shadow-sm">
-            {% if e.image %}
-              <img src="{{ e.image.url }}" class="card-img-top" alt="{{ e.title }}">
-            {% else %}
-              <img src="https://via.placeholder.com/300x200?text=Event" class="card-img-top" alt="Event">
+{% if recos %}
+<div class="row">
+    {% for event in recos %}
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            {% if event.image %}
+            <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.titre }}">
             {% endif %}
             <div class="card-body">
-              <h5 class="card-title">{{ e.title }}</h5>
-              <p class="card-text">
-                <span class="badge bg-primary">{{ e.category }}</span><br>
-                📍 {{ e.location }}<br>
-                📅 {{ e.date|date:"d/m/Y H:i" }}
-              </p>
-              <a href="{% url 'event_detail' e.pk %}" class="btn btn-outline-primary btn-sm">Voir détails</a>
+                <h5 class="card-title">{{ event.titre }}</h5>
+                <p class="card-text">{{ event.description|truncatechars:100 }}</p>
+                <p>📅 {{ event.date|date:"d/m/Y H:i" }}</p>
+                <p>🏷 {{ event.categorie }}</p>
+                <a href="{% url 'event_detail' event.pk %}" class="btn btn-primary">Voir l'événement</a>
             </div>
-          </div>
         </div>
-      {% endfor %}
     </div>
-  {% else %}
-    <div class="alert alert-info">Aucune recommandation disponible pour le moment.</div>
-  {% endif %}
+    {% endfor %}
 </div>
+{% else %}
+<p class="text-muted">Aucun événement disponible pour le moment.</p>
+{% endif %}
 {% endblock %}
